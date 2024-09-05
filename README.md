@@ -1,0 +1,3 @@
+# WebSocket Client
+
+Some more info might appear here one day...
