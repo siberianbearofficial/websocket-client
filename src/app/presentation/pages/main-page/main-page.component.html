@@ -1,6 +1,10 @@
 <div class="container">
   <div class="container__main">
-    Messages
+    <app-message-list></app-message-list>
+    <div class="container__main__message-input">
+      <app-message-input></app-message-input>
+      <button (click)="createMessage()">Send</button>
+    </div>
   </div>
   <div class="container__side">
     <app-user-list></app-user-list>

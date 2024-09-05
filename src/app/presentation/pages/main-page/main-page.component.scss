@@ -6,6 +6,26 @@
 
   &__main {
     flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    app-message-list {
+      flex: 1 1 auto;
+    }
+
+    &__message-input {
+      display: flex;
+      gap: 10px;
+
+      app-message-input {
+        flex: 1 1 auto;
+      }
+
+      button {
+        width: 50px;
+      }
+    }
   }
 
   &__side {

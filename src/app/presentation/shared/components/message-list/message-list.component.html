@@ -1,0 +1,8 @@
+<div class="container">
+  Messages:
+  @for (message of messages$ | async; track message.uuid) {
+    <div class="message">
+      {{message.userUuid}}: {{message.data}}
+    </div>
+  }
+</div>
