@@ -1,13 +1,15 @@
 import {inject, Injectable} from '@angular/core';
 import {MessageAdapterService} from "../../infrastructure/adapters/message-adapter.service";
-import {BehaviorSubject, Observable, shareReplay, take, tap} from "rxjs";
+import {BehaviorSubject, merge, Observable, shareReplay, switchMap, take, tap} from "rxjs";
 import {Message} from "../entities/message";
+import {SocketApiService} from "../../infrastructure/api/socket-api.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
   private messageAdapter: MessageAdapterService = inject(MessageAdapterService);
+  private socketApi: SocketApiService = inject(SocketApiService);
 
   private messages$$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   messages$: Observable<Message[]> = this.messages$$.pipe(shareReplay(1));
@@ -16,9 +18,13 @@ export class MessageService {
   data$: Observable<string> = this.data$$.pipe(shareReplay(1));
 
   getMessages(): Observable<Message[]> {
-    return this.messageAdapter.getMessages().pipe(
-      tap((messages: Message[]) => this.messages$$.next(messages)),
-      take(1)
+    return merge(
+      this.messageAdapter.getMessages(),
+      this.socketApi.onMessageCreated().pipe(
+        switchMap(() => this.messageAdapter.getMessages())
+      )
+    ).pipe(
+      tap((messages: Message[]) => this.messages$$.next(messages))
     );
   }
 
