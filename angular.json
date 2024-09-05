@@ -74,7 +74,8 @@
               "buildTarget": "websocket-client:build:production"
             },
             "development": {
-              "buildTarget": "websocket-client:build:development"
+              "buildTarget": "websocket-client:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

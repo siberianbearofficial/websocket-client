@@ -1,0 +1,8 @@
+<div class="container">
+  Users:
+  @for (user of users$ | async; track user.uuid) {
+    <div class="user">
+      {{user.username}}
+    </div>
+  }
+</div>
